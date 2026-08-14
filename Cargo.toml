@@ -3,4 +3,5 @@ resolver = "3"
 members = [
     "to_do/core",
     "to_do/dal",
+    "to_do/networking/actix_server",
 ]

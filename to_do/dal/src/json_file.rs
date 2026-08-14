@@ -16,7 +16,7 @@ fn get_handle(path: Option<&str>, truncate: bool) -> Result<File, String> {
         .read(true)
         .write(true)
         .create(true)
-        .truncate(true)
+        .truncate(truncate)
         .open(path)
         .map_err(|e| format!("Error opening file: {}", e))?;
     Ok(file)
