@@ -1,4 +1,5 @@
 use clap::Parser;
+use glue::errors::NanoServiceError;
 
 use crate::{api::basic_actions::create::create, enums::TaskStatus};
 
@@ -15,7 +16,7 @@ struct Args {
     status: String,
 }
 
-fn main() -> Result<(), String> {
+fn main() -> Result<(), NanoServiceError> {
     let args = Args::parse();
     let status_enum = TaskStatus::from_string(&args.status)?;
     let to_do_item = create(&args.title, status_enum)?;

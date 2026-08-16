@@ -1308,6 +1308,7 @@ name = "to-do-actix-server"
 version = "0.0.0"
 dependencies = [
  "actix-web",
+ "glue",
  "to-do-core",
  "tokio",
 ]
@@ -1317,6 +1318,7 @@ name = "to-do-core"
 version = "0.0.0"
 dependencies = [
  "clap",
+ "glue",
  "serde",
  "to-do-dal",
 ]
@@ -1325,6 +1327,7 @@ dependencies = [
 name = "to-do-dal"
 version = "0.0.0"
 dependencies = [
+ "glue",
  "serde",
  "serde_json",
 ]
