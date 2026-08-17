@@ -1,6 +1,7 @@
 use std::{
     collections::HashMap,
     env,
+    fmt::Debug,
     fs::{File, OpenOptions},
     io::{Read, Write},
 };
@@ -77,11 +78,19 @@ where
     save_all(&tasks)
 }
 
-pub fn delete_one<T>(id: &str) -> Result<(), NanoServiceError>
+pub fn delete_one<T>(id: &str) -> Result<T, NanoServiceError>
 where
-    T: Serialize + DeserializeOwned + Clone,
+    T: Serialize + DeserializeOwned + Clone + Debug,
 {
     let mut tasks = get_all::<T>().unwrap_or_else(|_| HashMap::new());
-    tasks.remove(id);
-    save_all(&tasks)
+    match tasks.remove(id) {
+        Some(deleted) => {
+            save_all(&tasks)?;
+            Ok(deleted)
+        }
+        None => Err(NanoServiceError::new(
+            format!("Task with title {} not found", id),
+            NanoServiceErrorStatus::NotFound,
+        )),
+    }
 }
