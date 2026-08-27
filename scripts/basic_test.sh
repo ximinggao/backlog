@@ -32,6 +32,7 @@ curl -X DELETE http://127.0.0.1:8080/api/v1/delete/coding >>output.txt
 echo "" >>output.txt
 curl -X PATCH http://127.0.0.1:8080/api/v1/update \
 	-H "Content-Type: application/json" \
+	-H "token: some token" \
 	-d '{"title": "writing", "status": "DONE"}' \
 	>>output.txt
 kill $PID
