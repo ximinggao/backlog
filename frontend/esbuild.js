@@ -4,7 +4,7 @@ const cssModulesPlugin = require('esbuild-css-modules-plugin');
 esbuild.build({
     plugins: [cssModulesPlugin()],
     entryPoints: ['src/index.tsx'],
-    bunder: true,
+    bundle: true,
     outfile: 'public/bundle.js',
     format: 'esm',
     define: {

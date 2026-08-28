@@ -1,0 +1,18 @@
+{
+  "name": "es_react",
+  "version": "1.0.0",
+  "description": "Backlog Frontend",
+  "scripts": {
+    "build": "node esbuild.js",
+    "serve": "serve public"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "esbuild-css-modules-plugin": "^3.1.5",
+    "serve": "^14.2.6"
+  }
+}
