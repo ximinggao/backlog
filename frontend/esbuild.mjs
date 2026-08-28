@@ -1,5 +1,5 @@
-const esbuild = require('esbuild');
-const cssModulesPlugin = require('esbuild-css-modules-plugin');
+import esbuild from 'esbuild';
+import cssModulesPlugin from 'esbuild-css-modules-plugin';
 
 esbuild.build({
     plugins: [cssModulesPlugin()],
