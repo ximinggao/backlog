@@ -12,7 +12,7 @@ use serde::{Serialize, de::DeserializeOwned};
 fn get_handle(path: Option<&str>, truncate: bool) -> Result<File, NanoServiceError> {
     let path = match path {
         Some(p) => p,
-        None => &env::var("JSON_STORE_PATH").unwrap_or("~/Workspace/Projects/mine/playground/rust/backlog/tasks.json".to_string()),
+        None => &env::var("JSON_STORE_PATH").unwrap_or("./tasks.json".to_string()),
     };
 
     safe_eject!(
@@ -35,6 +35,13 @@ pub fn get_all<T: DeserializeOwned>() -> Result<HashMap<String, T>, NanoServiceE
         NanoServiceErrorStatus::Unknown,
         "Error reading JSON file to get all tasks"
     )?;
+
+    // A freshly created (or truncated) store has no content yet: treat it as an
+    // empty set instead of failing to parse an empty string.
+    if contents.trim().is_empty() {
+        return Ok(HashMap::new());
+    }
+
     let tasks: HashMap<String, T> = safe_eject!(
         serde_json::from_str(&contents),
         NanoServiceErrorStatus::Unknown,
