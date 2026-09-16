@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from "react-dom/client";
+import getAll from './api/get';
+import { ToDoItems } from './interfaces/toDoItems';
+
 const App = () => {
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const response = await getAll();
+            if (response.error) {
+                setError(response.error);
+            } else {
+                setData(response.data);
+            }
+        };
+        fetchData();
+    }, []);
+    
     return (
         <div>
-            <h1>Hello World</h1>
-        </div>
-    );
+            {error ? (
+                <div style={{ color: 'red' }}>Error: {error}</div>
+            ) : data ? (
+                <div>Data loaded: {JSON.stringify(data)}</div>
+            ) : (
+                <div>Loading...</div>
+            )}
+        </div>);
 };
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);

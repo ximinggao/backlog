@@ -12,7 +12,7 @@ use serde::{Serialize, de::DeserializeOwned};
 fn get_handle(path: Option<&str>, truncate: bool) -> Result<File, NanoServiceError> {
     let path = match path {
         Some(p) => p,
-        None => &env::var("JSON_STORE_PATH").unwrap_or("./tasks.json".to_string()),
+        None => &env::var("JSON_STORE_PATH").unwrap_or("~/Workspace/Projects/mine/playground/rust/backlog/tasks.json".to_string()),
     };
 
     safe_eject!(
