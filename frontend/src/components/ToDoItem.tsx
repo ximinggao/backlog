@@ -25,7 +25,7 @@ export const ToDoItem: React.FC<ToDoItemProps> = ({ title, status, id, passBackR
         if (button === 'edit') {
             await updateToDoItemCall(itemTitle, TaskStatus.DONE).then(response => passBackResponse(response));
         } else {
-            await deleteToDoItemCall(itemTitle).then(response => passBackResponse(response.data));
+            await deleteToDoItemCall(itemTitle).then(response => passBackResponse(response));
         }
     };
 
