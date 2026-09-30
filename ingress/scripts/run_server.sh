@@ -10,5 +10,5 @@ cd frontend
 bun install
 bun run build
 cd ../ingress
-cargo clean
+# cargo clean
 cargo run

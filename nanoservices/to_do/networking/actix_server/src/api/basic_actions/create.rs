@@ -7,5 +7,5 @@ use to_do_core::{
 
 pub async fn create(body: Json<ToDoItem>) -> Result<HttpResponse, NanoServiceError> {
     let _ = acreate(body.into_inner()).await?;
-    Ok(HttpResponse::Ok().json(get_all().await?))
+    Ok(HttpResponse::Created().json(get_all().await?))
 }

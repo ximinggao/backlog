@@ -4,6 +4,7 @@ export enum TaskStatus {
 }
 
 export interface ToDoItem {
+    id: number;
     title: string;
     status: TaskStatus;
 }
@@ -11,4 +12,13 @@ export interface ToDoItem {
 export interface ToDoItems {
     pending: ToDoItem[];
     done: ToDoItem[];
+}
+
+export function isToDoItems(data: unknown): data is ToDoItems {
+    return (
+        typeof data === 'object' &&
+        data !== null &&
+        Array.isArray((data as ToDoItems).done) &&
+        Array.isArray((data as ToDoItems).pending)
+    );
 }
