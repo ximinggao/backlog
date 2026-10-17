@@ -4,6 +4,7 @@ import getAll from './api/get';
 import { CreateToDoItemForm } from './components/CreateToDoItemForm';
 import { ToDoItem } from './components/ToDoItem';
 import { ToDoItems, isToDoItems } from './interfaces/toDoItems';
+import './App.css';
 
 const App = () => {
     const [data, setData] = useState<ToDoItems | null>(null);

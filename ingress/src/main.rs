@@ -63,6 +63,8 @@ async fn catch_all(req: HttpRequest) -> impl Responder {
         None => "text/html",
     };
 
+    println!("Req path: {}, File type: {}", req.path(), file_type);
+
     if !file_type.contains("text/html") {
         return serve_frontend_asset(req.path().to_string());
     }
