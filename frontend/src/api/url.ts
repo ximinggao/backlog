@@ -12,11 +12,11 @@ export class Url {
     }
     
     static getBaseUrl(): string {
-        let url = window.location.href;
-        if (url.includes('localhost:3000')) {
+        const currentUrl = new URL(window.location.href);
+        if (currentUrl.hostname === 'localhost' && currentUrl.port === '3000') {
             return 'http://localhost:8001/';
         }
-        return url;
+        return `${currentUrl.origin}/`;
     }
 
     deleteUrl(name: string): string {
