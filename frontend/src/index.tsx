@@ -5,10 +5,13 @@ import { CreateToDoItemForm } from './components/CreateToDoItemForm';
 import { ToDoItem } from './components/ToDoItem';
 import { ToDoItems, isToDoItems } from './interfaces/toDoItems';
 import './App.css';
+import init, { rust_generate_button_text } from '../rust-interface/pkg/rust_interface.js';
 
 const App = () => {
     const [data, setData] = useState<ToDoItems | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [wasmReady, setWasmReady] = useState<boolean>(false);
+    const [RustGenerateButtonText, setRustGenerateButtonText] = useState<(input: string) => string>(null);
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -21,7 +24,16 @@ const App = () => {
                 setError('Unexpected response payload');
             }
         };
-        fetchData();
+        if (wasmReady) {
+            void fetchData();
+        }
+    }, [wasmReady]);
+
+    React.useEffect(() => {
+        init().then(() => {
+            setRustGenerateButtonText(() => rust_generate_button_text);
+            setWasmReady(true);
+        }).catch(e => console.error("Error initializing WASM module:", e));
     }, []);
 
     function reRenderItems(response: any) {
@@ -49,13 +61,15 @@ const App = () => {
                     <h1>Pending Items</h1>
                     <div>
                         {data.pending.map((item, index) =>
-                            <ToDoItem key={item.title + item.status} title={item.title} status={item.status} id={item.id} passBackResponse={reRenderItems} />
+                            <ToDoItem key={item.title + item.status} title={item.title} id={item.id}
+                                buttonMessage={RustGenerateButtonText(item.status)} passBackResponse={reRenderItems} />
                         )}
                     </div>
                     <h1>Done Items</h1>
                     <div>
                         {data.done.map((item, index) =>
-                            <ToDoItem key={item.title + item.status} title={item.title} status={item.status} id={item.id} passBackResponse={reRenderItems} />
+                            <ToDoItem key={item.title + item.status} title={item.title} id={item.id}
+                                buttonMessage={RustGenerateButtonText(item.status)} passBackResponse={reRenderItems} />
                         )}
                     </div>
                     <CreateToDoItemForm passBackResponse={reRenderItems} />

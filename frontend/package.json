@@ -4,7 +4,9 @@
   "description": "Backlog Frontend",
   "scripts": {
     "build": "bun esbuild.mjs",
-    "serve": "bunx serve public"
+    "serve": "bunx serve public",
+    "wasm": "cd rust-interface && wasm-pack build --target web && cp pkg/rust_interface_bg.wasm ../public/rust_interface_bg.wasm",
+    "wasm-trace": "cd public && wasm2wat rust_interface_bg.wasm -o rust_interface_bg.wat"
   },
   "dependencies": {
     "@types/react": "^19.3.0",

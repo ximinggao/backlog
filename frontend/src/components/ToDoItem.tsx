@@ -5,34 +5,24 @@ import { TaskStatus } from '../interfaces/toDoItems';
 
 interface ToDoItemProps {
     title: string,
-    status: string,
     id: number;
-    passBackResponse: (response: any) => void
+    passBackResponse: (response: any) => void,
+    buttonMessage: string;
 }
 
-export const ToDoItem: React.FC<ToDoItemProps> = ({ title, status, id, passBackResponse }) => {
-    const [itemTitle] = useState<string>(title);
-    const [button, setButton] = useState<string>('');
-
-    useEffect(() => {
-        const processStatus = (status: string): string => {
-            return status === 'PENDING' ? 'edit' : 'delete';
-        };
-        setButton(processStatus(status));
-    }, [status]);
-
+export const ToDoItem: React.FC<ToDoItemProps> = ({ title, id, passBackResponse, buttonMessage }) => {
     const sendRequest = async () => {
-        if (button === 'edit') {
-            await updateToDoItemCall(itemTitle, TaskStatus.DONE).then(response => passBackResponse(response));
+        if (buttonMessage === 'edit') {
+            await updateToDoItemCall(title, TaskStatus.DONE).then(response => passBackResponse(response));
         } else {
-            await deleteToDoItemCall(itemTitle).then(response => passBackResponse(response));
+            await deleteToDoItemCall(title).then(response => passBackResponse(response));
         }
     };
 
     return (
         <div className="itemContainer" id="{id}">
-            <p>{itemTitle}</p>
-            <button className="actionButton" onClick={sendRequest}>{button}</button>
+            <p>{title}</p>
+            <button className="actionButton" onClick={sendRequest}>{buttonMessage}</button>
         </div>
     );
 };
