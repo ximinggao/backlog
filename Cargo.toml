@@ -5,5 +5,5 @@ members = [
     "nanoservices/to_do/dal",
     "nanoservices/to_do/networking/actix_server",
     "glue",
-    "ingress", "frontend/rust-interface",
+    "ingress", "frontend/rust-interface", "kernel", "wasm-lib", "wasm-client",
 ]
