@@ -2,3 +2,5 @@
 tasks.json
 output.txt
 node_modules/
+*.wasm
+*.wat
