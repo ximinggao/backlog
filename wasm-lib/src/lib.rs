@@ -1,4 +1,7 @@
-use std::{alloc::{Layout, alloc, dealloc}, slice::from_raw_parts};
+use std::{
+    alloc::{Layout, alloc, dealloc},
+    slice::from_raw_parts,
+};
 
 use kernel::{ResultPointer, SomeDataStruct};
 
@@ -16,17 +19,15 @@ pub unsafe extern "C" fn ns_free(ptr: *mut u8, size: u32, alignment: u32) {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn entry_point(ptr: *const u8, len: usize) -> *const ResultPointer {
-    let bytes = unsafe {
-        from_raw_parts(ptr, len)
-    };
+    let bytes = unsafe { from_raw_parts(ptr, len) };
     let mut data_struct: SomeDataStruct = bincode::deserialize(bytes).unwrap();
     data_struct.names.push("new name".to_string());
 
     let serialized_data = bincode::serialize(&data_struct).unwrap();
     let len = serialized_data.len();
     let out_ptr = serialized_data.leak().as_ptr();
-    
-    let result = Box::new(ResultPointer{
+
+    let result = Box::new(ResultPointer {
         ptr: out_ptr as i32,
         len: len as i32,
     });

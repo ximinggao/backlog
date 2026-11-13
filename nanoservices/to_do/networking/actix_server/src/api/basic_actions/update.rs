@@ -10,7 +10,7 @@ pub async fn update(
     body: Json<ToDoItem>,
 ) -> Result<HttpResponse, NanoServiceError> {
     println!("Token: {}", token.message);
-    
+
     let _ = update_core(body.into_inner()).await?;
     Ok(HttpResponse::Ok().json(get_all_core().await?))
 }
