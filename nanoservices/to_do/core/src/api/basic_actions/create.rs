@@ -1,20 +1,10 @@
-use crate::{enums::TaskStatus, structs::ToDoItem};
-
 use glue::errors::NanoServiceError;
+use to_do_dal::to_do_items::{
+    schema::{NewToDoItem, ToDoItem},
+    transactions::create::SaveOne,
+};
 
-#[cfg(feature = "json-file-storage")]
-use to_do_dal::json_file::save_one;
-
-pub fn create(title: &str, status: TaskStatus) -> Result<ToDoItem, NanoServiceError> {
-    let item = ToDoItem {
-        title: title.to_string(),
-        status: status,
-    };
-    let _ = save_one(&title.to_string(), &item)?;
-    Ok(item)
-}
-
-pub async fn acreate(item: ToDoItem) -> Result<ToDoItem, NanoServiceError> {
-    let _ = save_one(&item.title, &item)?;
-    Ok(item)
+pub async fn create<T: SaveOne>(item: NewToDoItem) -> Result<ToDoItem, NanoServiceError> {
+    let created_item = T::save_one(item).await?;
+    Ok(created_item)
 }

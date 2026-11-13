@@ -1,7 +1,9 @@
 use clap::Parser;
-use glue::errors::NanoServiceError;
 
-use crate::{api::basic_actions::create::create, enums::TaskStatus};
+use crate::api::basic_actions::create::create;
+use to_do_dal::to_do_items::{
+    descriptors::JsonFileDescriptor, enums::TaskStatus, schema::NewToDoItem,
+};
 
 mod api;
 mod enums;
@@ -16,10 +18,22 @@ struct Args {
     status: String,
 }
 
-fn main() -> Result<(), NanoServiceError> {
+fn main() -> std::io::Result<()> {
     let args = Args::parse();
     let status_enum = TaskStatus::from_string(&args.status)?;
-    let to_do_item = create(&args.title, status_enum)?;
-    println!("{}", to_do_item);
+    let new_to_do_item = NewToDoItem {
+        title: args.title,
+        status: status_enum,
+    };
+
+    let item = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()?
+        .block_on(async {
+            let to_do_item = create::<JsonFileDescriptor>(new_to_do_item).await?;
+            Ok(to_do_item)
+        })?;
+
+    println!("{:?}", item);
     Ok(())
 }
