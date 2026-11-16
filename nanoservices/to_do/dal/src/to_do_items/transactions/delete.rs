@@ -1,4 +1,4 @@
-use crate::to_do_items::schema::{NewToDoItem, ToDoItem};
+use crate::to_do_items::schema::ToDoItem;
 use glue::errors::NanoServiceError;
 use std::future::Future;
 

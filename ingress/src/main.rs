@@ -4,9 +4,12 @@ use actix_cors::Cors;
 use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Responder, web};
 use rust_embed::RustEmbed;
 use to_do_server::api::views_factory as to_do_views_factory;
+use to_do_dal::migrations::run_migrations as run_to_do_migrations;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    run_to_do_migrations().await;
+    
     println!("Starting server on http://0.0.0.0:8001");
 
     HttpServer::new(|| {

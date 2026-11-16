@@ -13,7 +13,7 @@ interface ToDoItemProps {
 export const ToDoItem: React.FC<ToDoItemProps> = ({ title, id, passBackResponse, buttonMessage }) => {
     const sendRequest = async () => {
         if (buttonMessage === 'edit') {
-            await updateToDoItemCall(title, TaskStatus.DONE).then(response => passBackResponse(response));
+            await updateToDoItemCall(id, title, TaskStatus.DONE).then(response => passBackResponse(response));
         } else {
             await deleteToDoItemCall(title).then(response => passBackResponse(response));
         }

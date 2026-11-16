@@ -29,11 +29,8 @@ fn main() -> std::io::Result<()> {
     let item = tokio::runtime::Builder::new_current_thread()
         .enable_all()
         .build()?
-        .block_on(async {
-            let to_do_item = create::<JsonFileDescriptor>(new_to_do_item).await?;
-            Ok(to_do_item)
-        })?;
+        .block_on(async { create::<JsonFileDescriptor>(new_to_do_item).await.unwrap() });
 
-    println!("{:?}", item);
+    println!("{}", item);
     Ok(())
 }

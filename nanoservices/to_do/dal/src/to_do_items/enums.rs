@@ -1,6 +1,5 @@
-use std::fmt::Display;
+use std::{fmt::Display, io::ErrorKind::InvalidInput};
 
-use glue::errors::{NanoServiceError, NanoServiceErrorStatus};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -18,13 +17,13 @@ impl Display for TaskStatus {
     }
 }
 impl TaskStatus {
-    pub fn from_string(status: &String) -> Result<TaskStatus, NanoServiceError> {
+    pub fn from_string(status: &String) -> Result<TaskStatus, std::io::Error> {
         match status.to_uppercase().as_str() {
             "DONE" => Ok(TaskStatus::DONE),
             "PENDING" => Ok(TaskStatus::PENDING),
-            _ => Err(NanoServiceError::new(
+            _ => Err(std::io::Error::new(
+                InvalidInput,
                 format!("Invalid status: {}", status),
-                NanoServiceErrorStatus::BadRequest,
             )),
         }
     }

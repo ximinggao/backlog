@@ -1483,6 +1483,7 @@ dependencies = [
  "mime_guess",
  "rust-embed",
  "to-do-actix-server",
+ "to-do-dal",
  "tokio",
 ]
 
@@ -2649,6 +2650,7 @@ dependencies = [
  "actix-web",
  "glue",
  "to-do-core",
+ "to-do-dal",
  "tokio",
 ]
 
